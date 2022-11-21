@@ -1,53 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int element;
-typedef struct TreeNode {
-	element key;
-	struct TreeNode *left, *right;
-} TreeNode;
+#define TRUE 1
+#define FALSE 0
+#define MAX_VERTICES 50
+#define MAX_STACK_SIZE 50
 
-TreeNode * new_node(int item)
+typedef struct GraphType {
+	int n;	
+	int adj_mat[MAX_VERTICES][MAX_VERTICES];
+} GraphType;
+int visited[MAX_VERTICES];
+
+void init(GraphType* g)
 {
-	TreeNode * temp = (TreeNode *)malloc(sizeof(TreeNode));
-	temp->key = item;
-	temp->left = temp->right = NULL;
-	return temp;
+	int r, c;
+	g->n = 0;
+	for (r = 0; r<MAX_VERTICES; r++)
+		for (c = 0; c<MAX_VERTICES; c++)
+			g->adj_mat[r][c] = 0;
 }
 
-TreeNode * insert_node(TreeNode * node, int key)
+void insert_vertex(GraphType* g, int v)
 {
-	if (node == NULL) return new_node(key);
-
-	if (key < node->key)
-		node->left = insert_node(node->left, key);
-	else if (key > node->key)
-		node->right = insert_node(node->right, key);
-
-	return node;
-}
-
-int min(TreeNode *root){
-	\\아래에 코드를 작성하시오.
-}
-
-int max(TreeNode *root){
-	\\아래에 코드를 작성하시오.
-}
-
-int main()
-{
-
-	TreeNode * root = NULL;
-	int temp;
-
-	printf("이진 탐색 트리에 5개의 정수를 삽입 하시오.\n");
-	for(int i=0; i<5; i++){
-		scanf("%d", &temp);
-		root = insert_node(root, temp);
+	if (((g->n) + 1) > MAX_VERTICES) {
+		fprintf(stderr, "Graph is Full");
+		return;
 	}
+	g->n++;
+}
+
+void insert_edge(GraphType* g, int start, int end)
+{
+	if (start >= g->n || end >= g->n) {
+		fprintf(stderr, "Wrong Vertex Number");
+		return;
+	}
+	g->adj_mat[start][end] = 1;
+	g->adj_mat[end][start] = 1;
+}
+
+void dfs_search(GraphType* g, int v)
+{
+//아래에 소스 코드를 작성하시오.
 	
-	printf("최소값: %d, 최대값: %d\n", min(root), max(root));
-		
+}
+
+int main(void)
+{
+	GraphType *g;
+	g = (GraphType *)malloc(sizeof(GraphType));
+	init(g);
+	for (int i = 0; i<4; i++)
+	insert_vertex(g, i);
+	insert_edge(g, 0, 1);
+	insert_edge(g, 0, 2);
+	insert_edge(g, 0, 3);
+	insert_edge(g, 1, 2);
+	insert_edge(g, 2, 3);
+
+	printf("DFS Search using Stack\n");
+	dfs_search(g, 0);
+	printf("\n");
+	free(g);
 	return 0;
 }
