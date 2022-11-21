@@ -40,7 +40,7 @@ void insert_edge(GraphType* g, int start, int end)
 	g->adj_mat[end][start] = 1;
 }
 
-void dfs_search(GraphType* g, int v)
+void d_search(GraphType* g, int v)
 {
 //아래에 소스 코드를 작성하시오.
 	
